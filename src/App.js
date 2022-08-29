@@ -7,9 +7,12 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <div className="App">
-      <QueryClientProvider client={queryClient}>
-        <Characters />
-      </QueryClientProvider>
+      <div className="container">
+        <h1>Rick and Morty</h1>
+        <QueryClientProvider client={queryClient}>
+          <Characters />
+        </QueryClientProvider>
+      </div>
     </div>
   );
 }
