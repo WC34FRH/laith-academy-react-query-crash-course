@@ -12,15 +12,19 @@ export default function Characters() {
     return response.json();
   };
 
-  const { data, status } = useQuery(["characters", page], fetchCharacters);
+  const { data, status, isPreviousData, isLoading, isError } = useQuery(
+    ["characters", page],
+    fetchCharacters,
+    {
+      keepPreviousData: true,
+    }
+  );
 
-  // console.log(data);
-
-  if (status === "loading") {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (status === "error") {
+  if (isError) {
     return <div>Error</div>;
   }
 
@@ -32,13 +36,16 @@ export default function Characters() {
       <div>
         <button
           disabled={page === 1}
-          onClick={() => {
-            setPage((prev) => prev - 1);
-          }}
+          onClick={() => setPage((prev) => prev - 1)}
         >
           Previous
         </button>
-        <button>Next</button>
+        <button
+          disabled={isPreviousData && !data.info.next}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
